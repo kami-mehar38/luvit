@@ -16,6 +16,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final ValueNotifier indexNotifier = ValueNotifier(0);
 
+  SwiperController mainPageController = SwiperController();
+
+  List<int> items = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    items = List.generate(5, (index) => index);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +75,12 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0),
         child: Swiper(
+          controller: mainPageController,
           physics: const NeverScrollableScrollPhysics(),
+          itemCount: items.length,
+          viewportFraction: 0.9,
+          scale: 1,
+          loop: false,
           itemBuilder: (context, index) {
             final controller = PageController(initialPage: 0);
 
@@ -75,6 +91,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ];
 
             return DraggableCard(
+              index: index,
+              removeCard: (removedIndex) {
+                if (removedIndex < items.length - 1) {
+                  mainPageController.next();
+                }
+              },
               child: ClipRRect(
                 child: Container(
                   margin:
@@ -329,9 +351,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             );
           },
-          itemCount: 10,
-          viewportFraction: 0.9,
-          scale: 1,
         ),
       ),
       bottomNavigationBar: const CustomBottomNavigationBar(),
