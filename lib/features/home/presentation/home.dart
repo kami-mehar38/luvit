@@ -40,7 +40,24 @@ class _MyHomePageState extends State<MyHomePage> {
           const LikesWidget(),
           IconButton(
             onPressed: () {},
-            icon: Image.asset('assets/images/ic_notification.png'),
+            icon: Stack(
+              children: [
+                Image.asset('assets/images/ic_notification.png'),
+                Positioned.directional(
+                  textDirection: Directionality.of(context),
+                  end: 0,
+                  top: 4,
+                  child: Container(
+                    width: 5,
+                    height: 5,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFFF016B),
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
